@@ -29,3 +29,4 @@ Route::post('/login', [LoginController::class, 'login']);
 
 Route::post('/creategroup', [CreateGroupController::class, 'create']);
 Route::post('/invitetogroup/{id}', [InviteController::class, 'invite']);
+Route::post('/acceptinvite/{id}', [InviteController::class, 'accept']);

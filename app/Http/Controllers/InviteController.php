@@ -23,4 +23,15 @@ class InviteController extends Controller
             return Responses\ResponseService::error('an error occured', $error->getMessage());
         }
     }
+
+    public function accept(Request $request, $id)
+    {
+        try {
+            $data = $this->invite->accept($request, $id);
+            return Responses\ResponseService::success($data['message'], $data['data']);
+        } catch (Throwable $error) {
+            return Responses\ResponseService::error('an error occured', $error->getMessage());
+        }
+    }
+
 }

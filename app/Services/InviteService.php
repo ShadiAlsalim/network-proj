@@ -71,6 +71,34 @@ class InviteService
         $token = PersonalAccessToken::findToken($request->bearerToken());
         $user = $token->tokenable;
 
-
+        $invitation = GroupMember::find($id);
+        $group = Group::find($invitation['group_id']);
+        if (!$invitation) {
+            return [
+                'message' => 'no invitation exists',
+                'data' => []
+            ];
+        } else if (!$user) {
+            return [
+                'message' => 'invalid token',
+                'data' => []
+            ];
+        } else if ($invitation['member_id'] != $user['id']) {
+            return [
+                'message' => 'you are not invited to this group',
+                'data' => []
+            ];
+        } else if (!$group) {
+            return [
+                'message' => 'this group does not exist',
+                'data' => []
+            ];
+        }
+        $invitation['role'] = 'participant';
+        $invitation->save();
+        return [
+            'message' => 'invitation accepted successfully',
+            'data' => $invitation
+        ];
     }
 }
