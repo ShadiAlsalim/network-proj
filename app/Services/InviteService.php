@@ -19,6 +19,7 @@ class InviteService
         $user = $token->tokenable;
         $invited = User::find($id);
         if (!$invited) {
+            echo "1";
             return [
                 'message' => 'user not found',
                 'data' => []
@@ -26,18 +27,21 @@ class InviteService
         }
         $group = Group::find($request['group_id']);
         if (!$group) {
+            echo "2";
             return [
                 'message' => 'group not found',
                 'data' => []
             ];
         }
         if ($group['owner_id'] != $user['id']) {
+            echo "3";
             return [
                 'message' => 'you are not the owner of this group',
                 'data' => []
             ];
         }
         if ($user['id'] == $invited['id']) {
+            echo "4";
             return [
                 'message' => 'you can not invite yourself',
                 'data' => []
@@ -45,6 +49,7 @@ class InviteService
         }
         $is_invited = GroupMember::where('group_id', $group['id'])->where('member_id', $id)->first();
         if ($is_invited) {
+            echo "5";
             return [
                 'message' => 'user already invited',
                 'data' => $is_invited
@@ -59,5 +64,13 @@ class InviteService
             'message' => 'invited successfully',
             'data' => $invitation
         ];
+    }
+
+    public function accept(Request $request, $id)
+    {
+        $token = PersonalAccessToken::findToken($request->bearerToken());
+        $user = $token->tokenable;
+
+
     }
 }

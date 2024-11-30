@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use app\Http\Controllers\Responses\ResponseService;
-use App\Services\InviteService;
-use Illuminate\Http\Request;
 use Throwable;
+use Illuminate\Http\Request;
+use App\Services\InviteService;
 
 class InviteController extends Controller
 {
@@ -19,9 +18,9 @@ class InviteController extends Controller
     {
         try {
             $data = $this->invite->invite($request, $id);
-            return ResponseService::success($data['message'], $data['data']);
+            return Responses\ResponseService::success($data['message'], $data['data']);
         } catch (Throwable $error) {
-            return ResponseService::error('an error occured', $error->getMessage());
+            return Responses\ResponseService::error('an error occured', $error->getMessage());
         }
     }
 }
